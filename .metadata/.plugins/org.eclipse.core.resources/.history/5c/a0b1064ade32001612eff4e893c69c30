@@ -1,0 +1,65 @@
+package com.lib.pack;
+
+import java.util.regex.*;
+
+public class EmailValidation {
+
+	/*
+	 * Checks for email addresses starting with inappropriate symbols like dots
+	 * or @ signs.
+	 */
+	public static void checkForPorA(String aPossibleEmail) {
+		Pattern p = Pattern.compile("ˆ\\.|ˆ\\@");
+		Matcher m = p.matcher(aPossibleEmail);
+		if (m.find())
+			System.err.println(aPossibleEmail + " - Email addresses 19 with dots or @ signs.");
+		else
+			System.err.println(aPossibleEmail + " is valid.");
+	}
+
+	/*
+	 * Checks for email addresses starting with www.
+	 */
+	public static void checkForWWW(String aPossibleEmail) {
+		Pattern p = Pattern.compile("ˆwww\\.");
+		Matcher m = p.matcher(aPossibleEmail);
+		if (m.find())
+			System.err.println(aPossibleEmail + " - Email addresses with www.");
+		else
+			System.err.println(aPossibleEmail + " is valid.");
+	}
+
+	/*
+	 * Checks for invalid characters in email addresses.
+	 */
+	public static void checkForInvalidC(String aPossibleEmail) {
+		Pattern p = Pattern.compile("[ˆA-Za-z0-9\\.\\@_\\-˜#]+");
+		Matcher m = p.matcher(aPossibleEmail);
+		StringBuffer sb = new StringBuffer();
+		boolean result = m.find();
+		boolean deletedIllegalChars = false;
+
+		while (result) {
+			deletedIllegalChars = true;
+			m.appendReplacement(sb, "");
+			result = m.find();
+		}
+
+		if (deletedIllegalChars) {
+
+			System.out.println("It contained incorrect characters such as spaces or commas.");
+		}
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		checkForPorA("hpb@cs.rit.edu");
+		checkForPorA("@cs.rit.edu");
+
+		checkForWWW("www.cs.rit.edu");
+
+		checkForInvalidC("hpb@cs.rit.edu");
+		checkForInvalidC("p b@cs.rit.edu");
+
+	}
+}
